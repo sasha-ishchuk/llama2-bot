@@ -44,11 +44,27 @@ def chat():
         "cheers"
     ]
 
+    shopping_keywords = [
+        "buy", "purchase", "shop", "order", "checkout", "cart", "wishlist",
+        "sale", "discount", "deal", "offer", "coupon", "promo", "promotion",
+        "return", "exchange", "refund", "shipping", "delivery", "tracking",
+        "product", "item", "stock", "availability", "brand", "size", "color",
+        "price", "payment", "credit card", "debit card", "cash on delivery",
+        "customer service", "support", "review", "rating", "feedback", "recommendation",
+        "membership", "subscription", "gift card", "voucher", "store", "boutique",
+        "checkout", "billing", "address", "invoice", "shopping bag", "ecommerce",
+        "marketplace", "retailer", "merchandise", "fashion", "apparel", "electronics",
+        "furniture", "home decor", "jewelry", "accessories", "gadget", "grocery"
+    ]
+
     if any(keyword in user_input.lower() for keyword in hi_keywords):
         return jsonify({"response": random.choice(openings)})
 
     if any(keyword in user_input.lower() for keyword in bye_keywords):
         return jsonify({"response": random.choice(closings)})
+
+    if not any(keyword in user_input.lower() for keyword in shopping_keywords):
+        return jsonify({"response": "Sorry, I can only assist you with shopping ;(\n Try another question."})
 
     headers = {
         'Content-Type': 'application/json'
