@@ -2,6 +2,7 @@ import random
 
 from flask import Flask, request, jsonify, render_template
 import requests
+from textblob import TextBlob
 
 app = Flask(__name__)
 
@@ -84,9 +85,14 @@ def chat():
         try:
             response_data = response.json()
             generated_text = response_data['response']
-            return jsonify({"response": generated_text})
 
-        except ValueError as e:
+            blob = TextBlob(generated_text)
+            if blob.sentiment.polarity >= 0:
+                return jsonify({"response": generated_text})
+            else:
+                return jsonify({"response": "The response generated had a negative sentiment. Please try again."})
+
+        except ValueError:
             return jsonify({"error": "Invalid JSON response from Ollama", "details": response.text}), 500
     except Exception as e:
         return jsonify({"error": str(e)}), 500
